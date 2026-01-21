@@ -1,0 +1,857 @@
+{
+  "info": {
+    "_postman_id": "5c1ae5fc-1551-4690-8239-da23c3d6b4a2",
+    "name": "jwt auth",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "test authentication",
+      "id": "2c065b68-2c5f-4a5c-8144-a9114d295e5f",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{dev}}/auth/test",
+          "host": [
+            "{{dev}}"
+          ],
+          "path": [
+            "auth",
+            "test"
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "8fcc32c3-a016-4152-a3fc-0b7f3d616100",
+          "name": "200 OK",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{dev}}/auth/test",
+              "host": [
+                "{{dev}}"
+              ],
+              "path": [
+                "auth",
+                "test"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "text/plain;charset=UTF-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "21"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 21 Jan 2026 21:35:39 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-01-21T21:36:16.678Z",
+          "body": "you are authenticated"
+        },
+        {
+          "id": "10e049c2-817d-4eab-b584-edde689186b8",
+          "name": "403 FORBIDDEN",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{dev}}/auth/test",
+              "host": [
+                "{{dev}}"
+              ],
+              "path": [
+                "auth",
+                "test"
+              ]
+            }
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 21 Jan 2026 21:36:51 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-01-21T21:36:58.553Z",
+          "body": "{\n    \"httpStatus\": \"403 FORBIDDEN\",\n    \"message\": \"You do not have permission to access this resource.\",\n    \"path\": \"/auth/test\",\n    \"timestamp\": \"22/01/2026 00:36:51\"\n}"
+        },
+        {
+          "id": "fbeea332-fa5b-4dea-bf07-c7781d20b03d",
+          "name": "405 METHOD_NOT_ALLOWED",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{dev}}/auth/test",
+              "host": [
+                "{{dev}}"
+              ],
+              "path": [
+                "auth",
+                "test"
+              ]
+            }
+          },
+          "status": "Method Not Allowed",
+          "code": 405,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 21 Jan 2026 21:43:01 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-01-21T21:43:10.832Z",
+          "body": "{\n    \"httpStatus\": \"405 METHOD_NOT_ALLOWED\",\n    \"message\": \"HTTP method not allowed for this endpoint.\",\n    \"path\": \"/auth/test\",\n    \"timestamp\": \"22/01/2026 00:43:01\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "refresh token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "a3e91493-2457-4019-ac1d-71aecd8a3f3a",
+            "exec": [
+              "const responseJson = pm.response.json();\r",
+              "\r",
+              "pm.collectionVariables.set(\"jwt\", responseJson.accessToken);\r",
+              "// pm.collectionVariables.set(\"refresh\", responseJson.refreshToken);\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "bc274b8c-1eb4-4da3-a16e-946fdcd35449",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "id": "93739e75-d625-42eb-9d0d-d465e09a7a2d",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept-Language",
+            "value": "en",
+            "type": "text",
+            "uuid": "7621994f-b7a2-440a-a0cf-c0f9e7a7e48b"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n   \"refreshToken\":\"{{refresh}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{dev}}/v1/auth/refresh",
+          "host": [
+            "{{dev}}"
+          ],
+          "path": [
+            "v1",
+            "auth",
+            "refresh"
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "77fd0b3a-9790-487b-99ce-d35d435387c8",
+          "name": "200 OK",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "en",
+                "type": "text",
+                "uuid": "7621994f-b7a2-440a-a0cf-c0f9e7a7e48b"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"refreshToken\":\"{{refresh}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{dev}}/v1/auth/refresh",
+              "host": [
+                "{{dev}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "refresh"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 21 Jan 2026 21:35:48 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-01-21T21:35:55.844Z",
+          "body": "{\n    \"accessToken\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImV4cCI6MTc2OTAzMTY0OCwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTc2OTAzMTM0OCwianRpIjoiNjEwNDdmOGItMmI3Mi00MWRjLWFmZjUtMTIzOWY1NDM4YjM0In0.Z3TMiIqF-mRQFV01DM6KMcVQIURxEb55e4j6XrHX4EQ\",\n    \"refreshToken\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImV4cCI6MTc2OTYzNjEyNywidHlwZSI6InJlZnJlc2giLCJpYXQiOjE3NjkwMzEzMjcsImp0aSI6ImMxNjM3MTU2LTFhNTktNDg1OS1iZjI2LTZjODdlYzRiOTMzNSJ9.mhyKcxsMlUshvm2J30Zg0_fJosVAcEjA3JJo2MBTQ9I\",\n    \"expiresInMs\": 300000\n}"
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "a3e91493-2457-4019-ac1d-71aecd8a3f3a",
+            "exec": [
+              "const responseJson = pm.response.json();\r",
+              "\r",
+              "pm.collectionVariables.set(\"jwt\", responseJson.accessToken);\r",
+              "pm.collectionVariables.set(\"refresh\", responseJson.refreshToken);\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "edac83b3-6c60-4f06-8de6-83fc971b5a95",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "id": "22c0dc91-e0b4-42af-84d1-e652c020d013",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept-Language",
+            "value": "en",
+            "type": "text",
+            "uuid": "e6a9fad4-d6b4-44dc-86e0-2b0b178843e2"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\":\"user2\",\r\n    \"password\": \"password\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{dev}}/v1/auth/login",
+          "host": [
+            "{{dev}}"
+          ],
+          "path": [
+            "v1",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "b3e24587-3d9e-40e3-85ba-537e5b5dbf63",
+          "name": "200 OK",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "ar",
+                "type": "text",
+                "uuid": "e6a9fad4-d6b4-44dc-86e0-2b0b178843e2"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\":\"user2\",\r\n    \"password\":\"password\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{dev}}/v1/auth/login",
+              "host": [
+                "{{dev}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 21 Jan 2026 21:17:21 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-01-21T21:17:26.845Z",
+          "body": "{\n    \"accessToken\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImV4cCI6MTc2OTAzMDU0MSwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTc2OTAzMDI0MSwianRpIjoiN2EwNDRmMmUtNmQyYy00NmY2LWEyMjctM2JjMDg3NzczNDBkIn0.gri_rWbpPOAfzvz5byAqcXj59mL5MARDCigemgp3mUc\",\n    \"refreshToken\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImV4cCI6MTc2OTYzNTA0MSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE3NjkwMzAyNDEsImp0aSI6ImM4YmE3MjNhLTJjNzktNDdlMy04N2M3LWM0Y2QzZDg3YWQ0NyJ9.p4n9wYvIQWKhGsZUkFrl8zGbkFu-PgCvfoJAQOrQkc4\",\n    \"expiresInMs\": 300000\n}"
+        },
+        {
+          "id": "330e99ab-9e15-4466-807e-afb94d650959",
+          "name": "401 UNAUTHORIZED",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "ar",
+                "type": "text",
+                "uuid": "e6a9fad4-d6b4-44dc-86e0-2b0b178843e2"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\":\"user2\",\r\n    \"password\":\"passwordd\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{dev}}/v1/auth/login",
+              "host": [
+                "{{dev}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 21 Jan 2026 21:17:57 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-01-21T21:18:06.445Z",
+          "body": "{\n    \"httpStatus\": \"401 UNAUTHORIZED\",\n    \"message\": \"اسم المستخدم أو كلمة المرور غير صحيحة.\",\n    \"path\": \"/v1/auth/login\",\n    \"timestamp\": \"22/01/2026 00:17:57\"\n}"
+        },
+        {
+          "id": "1e366471-ea8c-4bb1-ba57-9e864c792c19",
+          "name": "400 BAD_REQUEST",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "ar",
+                "type": "text",
+                "uuid": "e6a9fad4-d6b4-44dc-86e0-2b0b178843e2"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\":\"user2\",\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{dev}}/v1/auth/login",
+              "host": [
+                "{{dev}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 21 Jan 2026 21:18:30 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-01-21T21:18:37.566Z",
+          "body": "{\n    \"httpStatus\": \"400 BAD_REQUEST\",\n    \"message\": \"تنسيق JSON غير صالح. يرجى التحقق من محتوى الطلب.\",\n    \"path\": \"/v1/auth/login\",\n    \"timestamp\": \"22/01/2026 00:18:30\"\n}"
+        },
+        {
+          "id": "2ad3bf83-c233-473f-8cd8-b2553720789d",
+          "name": "400 BAD_REQUEST",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "ar",
+                "type": "text",
+                "uuid": "e6a9fad4-d6b4-44dc-86e0-2b0b178843e2"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\":\"user2\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{dev}}/v1/auth/login",
+              "host": [
+                "{{dev}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Wed, 21 Jan 2026 21:19:11 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-01-21T21:19:15.170Z",
+          "body": "{\n    \"fieldErrors\": [\n        {\n            \"field\": \"password\",\n            \"message\": \"كلمة المرور لا يمكن أن تكون فارغة\"\n        },\n        {\n            \"field\": \"password\",\n            \"message\": \"كلمة المرور مطلوبة\"\n        }\n    ],\n    \"httpStatus\": \"400 BAD_REQUEST\",\n    \"message\": \"فشل التحقق. راجع أخطاء الحقول.\",\n    \"path\": \"/v1/auth/login\",\n    \"timestamp\": \"22/01/2026 00:19:11\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "simple test",
+      "id": "ebcbaba6-3f57-49d6-8aa3-b4007eb60c5b",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{dev}}/test",
+          "host": [
+            "{{dev}}"
+          ],
+          "path": [
+            "test"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "id": "c952f65b-8dce-4ee3-9949-0b8fa1ebe0d2",
+      "key": "dev",
+      "value": ""
+    },
+    {
+      "id": "604a9994-c243-4192-976e-2294722bb520",
+      "key": "jwt",
+      "value": ""
+    },
+    {
+      "id": "b65365a7-47a3-4e97-8fc6-848e050c592e",
+      "key": "refresh",
+      "value": ""
+    }
+  ]
+}
