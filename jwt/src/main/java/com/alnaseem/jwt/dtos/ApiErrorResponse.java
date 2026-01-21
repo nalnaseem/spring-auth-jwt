@@ -9,6 +9,10 @@ import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
+/**
+ * Standard API error response payload returned by the global exception handler.
+ * Contains HTTP status, request path, localized message and timestamp.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

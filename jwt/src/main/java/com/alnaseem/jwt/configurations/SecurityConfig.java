@@ -15,6 +15,9 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Spring Security configuration that registers JWT and exception filters and provides sample in-memory users.
+ */
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {

@@ -1,14 +1,16 @@
 package com.alnaseem.jwt.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * API validation error payload that extends ApiErrorResponse with field-level errors.
+ * Contains a list of field errors for reporting validation failures back to clients.
+ */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

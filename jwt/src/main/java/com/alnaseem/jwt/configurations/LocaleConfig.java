@@ -11,6 +11,10 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
 import java.util.Locale;
 
+/**
+ * Web MVC locale configuration and message source bean registration.
+ * Sets default locale and loads message bundles from classpath:messages.
+ */
 @Configuration
 @RequiredArgsConstructor
 public class LocaleConfig implements WebMvcConfigurer {

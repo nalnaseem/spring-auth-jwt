@@ -1,20 +1,19 @@
 package com.alnaseem.jwt.configurations;
 
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
-import java.io.IOException;
-
+/**
+ * Delegates exceptions thrown by downstream filters to Spring's HandlerExceptionResolver
+ * so the application's ControllerAdvice can translate them into HTTP responses.
+ */
 @Component
-//@RequiredArgsConstructor
 @Slf4j
 public class ExceptionDelegatingFilter extends OncePerRequestFilter {
 
@@ -29,8 +28,7 @@ public class ExceptionDelegatingFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain)
-            throws ServletException, IOException {
+                                    FilterChain filterChain) {
 
         log.info("ExceptionDelegatingFilter: Filtering request {}", request.getRequestURI());
 

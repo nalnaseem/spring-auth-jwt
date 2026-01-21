@@ -11,6 +11,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 
+/**
+ * Entity representing stored JWT tokens (access and refresh) with soft-delete support.
+ * Tokens are stored with expiry, owner username and type to allow revocation and lookup.
+ */
 @Entity
 @Table(name = "tokens")
 @Getter

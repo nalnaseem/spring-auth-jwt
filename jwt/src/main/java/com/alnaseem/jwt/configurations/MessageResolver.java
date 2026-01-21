@@ -7,6 +7,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 
+/**
+ * Helper component to resolve localized messages from application's MessageSource.
+ * Provides convenience methods for default, English and Arabic lookups.
+ */
 @Component
 @RequiredArgsConstructor
 public class MessageResolver {

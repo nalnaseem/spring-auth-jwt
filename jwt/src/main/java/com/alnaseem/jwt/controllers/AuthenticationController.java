@@ -7,8 +7,6 @@ import com.alnaseem.jwt.exceptions.InvalidCredentialsException;
 import com.alnaseem.jwt.services.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authorization.AuthorizationDeniedException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 
+/**
+ * REST controller that exposes authentication endpoints for obtaining and refreshing JWT tokens.
+ * - POST /v1/auth/login: authenticate using username/password and receive access + refresh tokens.
+ * - POST /v1/auth/refresh: exchange a refresh token for a new access token.
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/auth")

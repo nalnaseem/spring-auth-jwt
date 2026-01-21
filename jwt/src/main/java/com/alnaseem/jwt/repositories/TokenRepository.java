@@ -9,9 +9,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository for persisting JWT tokens and performing soft-deletion operations.
+ */
 @Repository
 public interface TokenRepository extends JpaRepository<JwtToken, Long> {
     @Modifying

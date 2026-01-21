@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -27,6 +28,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.time.LocalDateTime;
 
+/**
+ * Global exception handler that translates from various exceptions into a consistent
+ * ApiErrorResponse or ApiValidationErrorResponse. It centralizes handling for security,
+ * validation, message parsing, and database-related exceptions.
+ */
 @ControllerAdvice
 @RequiredArgsConstructor
 @Slf4j
@@ -93,10 +99,8 @@ public class ExceptionHandling extends ResponseEntityExceptionHandler {
 
         ApiValidationErrorResponse error = buildApiValidationErrorResponse();
 
-        ex.getBindingResult().getFieldErrors().forEach(fieldError -> {
-            error.addValidationError(fieldError.getField(),
-                    messages.get(fieldError.getDefaultMessage()));
-        });
+        ex.getBindingResult().getFieldErrors().forEach(fieldError -> error.addValidationError(fieldError.getField(),
+                messages.get(fieldError.getDefaultMessage())));
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
@@ -119,7 +123,17 @@ public class ExceptionHandling extends ResponseEntityExceptionHandler {
         log.error("InvalidDataAccessResourceUsageException", ex);
         return buildApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "error.internal");
     }
+
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.error("HttpRequestMethodNotSupportedException", ex);
         return buildApiErrorResponse(HttpStatus.METHOD_NOT_ALLOWED, "error.method.not.allowed");
-    }}
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<Object> handleUsernameNotFound(UsernameNotFoundException ex) {
+        log.warn("Username not found: {}", ex.getMessage());
+        return buildApiErrorResponse(HttpStatus.UNAUTHORIZED, "error.invalid.credentials");
+    }
+}
+
+

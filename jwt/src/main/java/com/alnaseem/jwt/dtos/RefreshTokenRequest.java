@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import jakarta.validation.constraints.NotBlank;
 
+/**
+ * Request payload for refreshing an access token using a refresh token.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

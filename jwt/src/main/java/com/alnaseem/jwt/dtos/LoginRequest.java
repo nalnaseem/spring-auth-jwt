@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * Login request payload containing username and password. Validated for non-null/blank values.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
