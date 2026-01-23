@@ -1,49 +1,43 @@
-# Prerequisites & Running
+# JWT Authentication Service — Prerequisites, How to Run, and API Reference
 
-Before running the application, make sure you have the following installed and configured:
+A compact guide to run and use the Spring Boot JWT authentication service included in this repository. It documents prerequisites, optional Docker setup for SQL Server, configuration examples, build/run instructions, and the API endpoints with example requests and responses.
 
-Prerequisites
-- Java 17 JDK (required) — the project is built with Java 17 (`<java.version>` in `pom.xml`).
-- Apache Maven 3.6+ (used to build and run the app)
-- (Optional) An IDE with Lombok support (install Lombok plugin and enable annotation processing)
-- Database: Microsoft SQL Server (project includes `mssql-jdbc`); you can also configure an in-memory DB for development.
+Checklist
+- Prerequisites installed (Java 17, Maven)
+- (Optional) SQL Server container ready or a DB configured
+- `src/main/resources/application.properties` configured
+- Build and run with Maven or the packaged artifact
 
-Create SQL Server with Docker
+---
 
-If you don't have a SQL Server instance available locally, you can start one with Docker and create the database used by this project. The commands below are for PowerShell on Windows.
+## Prerequisites
+- Java 17 JDK (project targets Java 17)
+- Apache Maven 3.6+
+- (Optional) Docker (if you want to run SQL Server in a container)
+- (Optional) IDE with Lombok support — Lombok is provided as `provided` in `pom.xml`, enable annotation processing in your IDE
 
-1) Run the SQL Server container (this will pull the image if needed):
+## Optional: Run SQL Server with Docker (Windows PowerShell)
+If you don't have MS SQL Server available locally, start a dev container:
 
 ```powershell
 docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=StrongP@ssw0rd!" -p 1433:1433 --name mssql -d mcr.microsoft.com/mssql/server:2022-latest
 ```
 
-2) Open an interactive sqlcmd shell and connect as `sa` (the `-C` option forces encryption; remove if not required in your environment):
+Create the database (connect with sqlcmd):
 
 ```powershell
 docker exec -it mssql /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "StrongP@ssw0rd!" -C
-```
-
-3) Create the database and exit:
-
-```sql
+-- then in sqlcmd:
 CREATE DATABASE jwt_auth_db;
 GO
 ```
 
-4) Verify the database exists (run inside `sqlcmd`):
+Notes:
+- Change the password and port mapping for real environments.
+- The container may take a few seconds to start.
 
-```sql
-SELECT name FROM sys.databases WHERE name = 'jwt_auth_db';
-GO
-```
-
-Notes & safety
-- The example uses a strong but example password. In real environments, pick a secure password and avoid committing credentials to source control.
-- Port 1433 is mapped to the host; if you already have a SQL Server running on the host, change the host port mapping (for example `-p 1434:1433`) and update `spring.datasource.url` accordingly.
-- On first start, the container may take a moment to initialize SQL Server; if `sqlcmd` fails to connect immediately, wait a few seconds and retry.
-
-Recommended `application.properties` (example values - put these in `src/main/resources/application.properties` or use environment variables):
+## Configuration (example `src/main/resources/application.properties`)
+Place or update these properties in `src/main/resources/application.properties` or use environment variables to override them.
 
 ```
 # Server
@@ -58,60 +52,66 @@ spring.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
 # JPA / Hibernate
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
+
+# JWT (example keys — replace in production)
+jwt.secret=replace_with_a_secure_secret
+jwt.accessTokenExpirationMs=3600000
+jwt.refreshTokenExpirationMs=2592000000
+
+# Localization (message bundles)
+spring.messages.basename=messages
+
+# Logging (optional)
+logging.level.org.springframework=INFO
 ```
 
-Build & run (PowerShell commands)
+Assumptions: the project uses properties similar to the keys above — replace `jwt.*` with the actual keys used in your code if they differ.
 
-- Run with Maven (useful for development):
+## Build & Run
 
-```
+Run in development (recommended while coding):
+
+```powershell
 mvn spring-boot:run
 ```
 
-- Run the generated artifact (WAR) after packaging:
+Build the artifact and run the produced WAR/JAR:
 
-```
+```powershell
+mvn clean package
 java -jar target\jwt-0.0.1-SNAPSHOT.war
 ```
 
+Override properties with environment variables (example):
 
-Notes
-- Lombok: since Lombok is declared as `provided` in `pom.xml`, make sure your IDE has the Lombok plugin and annotation processing enabled so generated getters/setters/builders are recognized at compile time and in the editor.
-- Environment variables: you can override `application.properties` values using environment variables (for example `SPRING_DATASOURCE_URL`) or pass `-D` properties on the command line (for example `-Dspring.profiles.active=dev`).
-
----
-
-# JWT Authentication Service (API Reference)
-
-This README lists all HTTP endpoints in this project, request/response DTOs, validation rules, example requests, and the common error responses.
-
-Base URL (default for local run):
-- http://localhost:8090
-
-Authentication: JSON Web Tokens (JWT)
-- Login returns an access token and a refresh token (see `JwtTokenDto`). Use the access token in the `Authorization: Bearer <token>` header for protected endpoints.
-
-Endpoints
----------
-
-1) POST /v1/auth/login
-- Controller: `AuthenticationController`
-- Purpose: Authenticate user and obtain JWT tokens
-- Auth: no
-- Request (JSON body): `LoginRequest`
-  - username: string (required, not null, not blank)
-  - password: string (required, not null, not blank)
-- Success (200 OK): `JwtTokenDto`
-  - accessToken: string
-  - refreshToken: string
-  - expiresInMs: long
-- Possible errors:
-  - 400 Bad Request — validation errors (missing fields, malformed JSON)
-  - 401 Unauthorized — invalid credentials (handled as `InvalidCredentialsException`)
-
-Example request:
+```powershell
+$env:SPRING_DATASOURCE_URL = "jdbc:sqlserver://localhost:1433;databaseName=jwt_auth_db"
+mvn spring-boot:run
 ```
-POST /v1/auth/login
+
+To run with a different Spring profile:
+
+```powershell
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
+## API Reference (base URL: http://localhost:8090)
+
+Authentication uses JSON Web Tokens (JWT). The login endpoint returns an access token and a refresh token. Send the access token with `Authorization: Bearer <token>` to access protected endpoints.
+
+Notes: endpoints below match the controllers in the project source. If your application context or base path differs, update the examples accordingly.
+
+### 1) POST /v1/auth/login
+- Purpose: Authenticate user and obtain JWT tokens
+- Auth: none
+- Request body: JSON — `LoginRequest`
+  - username: string (required)
+  - password: string (required)
+
+Request example:
+
+```http
+POST /v1/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
@@ -120,9 +120,9 @@ Content-Type: application/json
 }
 ```
 
-Example success response:
-```
-200 OK
+Success response (200):
+
+```json
 {
   "accessToken": "eyJ...",
   "refreshToken": "eyJ...",
@@ -130,22 +130,22 @@ Example success response:
 }
 ```
 
+Errors:
+- 400 Bad Request — validation errors or malformed JSON
+- 401 Unauthorized — invalid credentials
+
 ---
 
-2) POST /v1/auth/refresh
-- Controller: `AuthenticationController`
-- Purpose: Exchange a refresh token for a new access token (and possibly a new refresh token)
-- Auth: no
-- Request (JSON body): `RefreshTokenRequest`
-  - refreshToken: string (required, not blank)
-- Success (200 OK): `JwtTokenDto`
-- Possible errors:
-  - 400 Bad Request — validation errors or malformed JSON
-  - 401 Unauthorized — invalid or expired refresh token
+### 2) POST /v1/auth/refresh
+- Purpose: Exchange a refresh token for a new access token
+- Auth: none
+- Request body: JSON — `RefreshTokenRequest`
+  - refreshToken: string (required)
 
-Example request:
-```
-POST /v1/auth/refresh
+Request example:
+
+```http
+POST /v1/auth/refresh HTTP/1.1
 Content-Type: application/json
 
 {
@@ -153,33 +153,54 @@ Content-Type: application/json
 }
 ```
 
+Success response (200) — same shape as the login response:
+
+```json
+{
+  "accessToken": "eyJ...",
+  "refreshToken": "eyJ...",
+  "expiresInMs": 3600000
+}
+```
+
+Errors:
+- 400 Bad Request — validation errors
+- 401 Unauthorized — invalid or expired refresh token
+
 ---
 
-3) GET /test
-- Controller: `TestController`
+### 3) GET /test
 - Purpose: Public health/test endpoint
-- Auth: no
-- Success (200 OK): plain text body `test`
+- Auth: none
+- Response: 200 OK — plain text `test`
 
-4) GET /auth/test
-- Controller: `TestController`
-- Purpose: A protected test endpoint that requires a valid JWT
-- Auth: yes — send `Authorization: Bearer <accessToken>`
-- Success (200 OK): plain text `you are authenticated`
-- Possible errors:
-  - 401 Unauthorized — missing or invalid token
-  - 403 Forbidden — access denied
+Example:
 
-Example request (protected):
+```http
+GET /test HTTP/1.1
+
+# response body: test
 ```
-GET /auth/test
+
+### 4) GET /auth/test
+- Purpose: Protected test endpoint
+- Auth: required — `Authorization: Bearer <accessToken>`
+- Response: 200 OK — plain text `you are authenticated`
+
+Errors:
+- 401 Unauthorized — missing or invalid token
+- 403 Forbidden — access denied
+
+Example:
+
+```http
+GET /auth/test HTTP/1.1
 Authorization: Bearer eyJ...
 ```
 
-DTOs and Validation
--------------------
+## DTOs & Validation (key DTOs)
 
-`LoginRequest` (request body for `/v1/auth/login`)
+LoginRequest
 - username: string
   - @NotNull(message = "{login.username.notnull}")
   - @NotBlank(message = "{login.username.notblank}")
@@ -187,37 +208,67 @@ DTOs and Validation
   - @NotNull(message = "{login.password.notnull}")
   - @NotBlank(message = "{login.password.notblank}")
 
-`RefreshTokenRequest` (request body for `/v1/auth/refresh`)
+RefreshTokenRequest
 - refreshToken: string
   - @NotBlank(message = "{refresh.token.notblank}")
 
-`JwtTokenDto` (successful authentication response)
+JwtTokenDto (response)
 - accessToken: string
 - refreshToken: string
 - expiresInMs: long
 
-Error Responses
----------------
-General error wrapper: `ApiErrorResponse` (used by global exception handler)
-- httpStatus: HTTP status (numeric / enum)
-- path: request URI
-- message: localized message key resolved to message text
-- timestamp: date/time
+Validation errors are returned as a structured `ApiValidationErrorResponse` containing a list of field errors (`field`, `message`).
 
-Validation errors: `ApiValidationErrorResponse` extends `ApiErrorResponse` and includes `fieldErrors` list of `{ field, message }` objects for field-level errors.
+## Error responses
 
-Common handled exceptions (global `ControllerAdvice` in `ExceptionHandling`)
-- `InvalidCredentialsException` -> 401 Unauthorized
-- `JwtExpiredException` -> 401 Unauthorized
-- `AuthorizationDeniedException` / `AccessDeniedException` -> 403 Forbidden
-- `HttpRequestMethodNotSupportedException` -> 405 Method Not Allowed
-- `HttpMessageNotReadableException` -> 400 Bad Request (malformed JSON)
-- `MethodArgumentNotValidException` -> 400 Bad Request (validation errors)
-- `DataIntegrityViolationException`, `ConstraintViolationException`, `InvalidDataAccessResourceUsageException` -> 500 Internal Server Error
+General error wrapper (`ApiErrorResponse`) — fields typically included:
+- httpStatus: HTTP status code
+- path: request path
+- message: resolved localized message
+- timestamp: timestamp of the error
 
-Notes & Usage
--------------
-- Server default port in this project: 8090 (verify `application.properties` for overrides).
-- To call protected endpoints add the header: `Authorization: Bearer <accessToken>`
+Validation example (400):
+
+```json
+{
+  "httpStatus": 400,
+  "path": "/v1/auth/login",
+  "message": "Validation failed",
+  "timestamp": "2026-01-23T12:00:00Z",
+  "fieldErrors": [
+    { "field": "username", "message": "must not be blank" }
+  ]
+}
+```
+
+Authentication error example (401):
+
+```json
+{
+  "httpStatus": 401,
+  "path": "/v1/auth/login",
+  "message": "Invalid credentials",
+  "timestamp": "2026-01-23T12:00:00Z"
+}
+```
+
+## Troubleshooting & Notes
+- Lombok: enable annotation processing in your IDE so generated code is visible.
+- DB connection issues: verify `spring.datasource.url` / credentials and that the SQL Server container is running.
+- JWT issues: ensure the `jwt.secret` is set and matches what the application expects; check token expiry settings.
+- If you change message keys/locales, restart the application to reload bundles.
+
+Useful classes for debugging: `JwtAuthFilter`, `AuthenticationController`, and the global exception handler (look under `com.alnaseem.jwt` package).
+
+## Postman
+A Postman collection may be included in the repository under `postman/` — import it to test endpoints quickly.
+
+## License / Attribution
+This project uses common open-source libraries (Spring Boot, Spring Security, Hibernate, Lombok, etc.). Use and adapt according to those libraries' licenses. Add your preferred license here.
+
 ---
 
+If you want, I can also:
+- Add curl examples for each endpoint in a separate `EXAMPLES.md` file
+- Create a `application.properties.example` with safe placeholder values
+- Add a short `CONTRIBUTING.md` with how to run and test locally
